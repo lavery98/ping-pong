@@ -1,0 +1,21 @@
+name: CI
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+jobs:
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+            - uses: actions/setup-go@v6
+              with:
+                go-version: '1.25'
+            - name: Make
+              run: make
+            # - name: Make Image
+            #   run: make image
