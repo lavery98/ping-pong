@@ -1,3 +1,5 @@
+version: 2
+
 project_name: ping-pong
 
 builds:
@@ -12,11 +14,7 @@ builds:
 
 archives:
   - id: ping-pong
-    name_template: >-
-      {{ .ProjectName }}_
-      {{- title .Os }}_
-      {{ .Arch }}
-      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    name_template: "{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{- if .Arm }}v{{ .Arm }}{{ end }}"
     formats: tar.gz
     format_overrides:
       - goos: windows
@@ -30,3 +28,19 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
+
+dockers_v2:
+  - images:
+      - "ghcr.io/lavery98/ping-pong"
+    tags:
+      - "latest"
+      - "{{ .Tag }}"
+    labels:
+      "org.opencontainers.image.name": "{{.ProjectName}}"
+      "org.opencontainers.image.description": "Simple HTTP server that responds to /ping with pong. Useful for remote monitoring of endpoints"
+      "org.opencontainers.image.source": "{{.GitURL}}"
+      "org.opencontainers.image.url": "{{.GitURL}}"
+      "org.opencontainers.image.documentation": "{{.GitURL}}"
+      "org.opencontainers.image.created": "{{.Date}}"
+      "org.opencontainers.image.revision": "{{.FullCommit}}"
+      "org.opencontainers.image.version": "{{.Version}}"
