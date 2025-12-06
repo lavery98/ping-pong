@@ -1,3 +1,3 @@
 module github.com/lavery98/ping-pong
 
-go 1.25
+go 1.23
