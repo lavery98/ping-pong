@@ -1,0 +1,32 @@
+project_name: ping-pong
+
+builds:
+  - binary: ping-pong
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - id: ping-pong
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{ .Arch }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    formats: tar.gz
+    format_overrides:
+      - goos: windows
+        formats: zip
+    files:
+      - LICENSE
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
