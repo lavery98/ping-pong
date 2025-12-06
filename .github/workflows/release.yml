@@ -1,29 +1,32 @@
 name: Release a tag
 
 on:
-    push:
-        tags:
-            - 'v*'
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
 
 jobs:
-    release:
-        name: Release process
-        runs-on: ubuntu-latest
+  release:
+    name: Release process
+    runs-on: ubuntu-latest
+    env:
+      GO_VERSION: stable
+      CGO_ENABLED: 0
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '${{ ENV.GO_VERSION }}'
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v4
+        with:
+          version: latest
+          args: release --clean
         env:
-            GO_VERSION: stable
-            CGO_ENABLED: 0
-        
-        steps:
-            - uses: actions/checkout@v6
-              with:
-                fetch-depth: 0
-            - uses: actions/setup-go@v6
-              with:
-                go-version: '${{ ENV.GO_VERSION }}'
-            - name: Run GoReleaser
-              uses: goreleaser/goreleaser-action@v4
-              with:
-                version: latest
-                args: release --clean
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
