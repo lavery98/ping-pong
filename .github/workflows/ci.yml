@@ -1,24 +1,24 @@
 name: CI
 
 on:
-    push:
-        branches:
-            - main
-    pull_request:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
-    build:
-        name: Build
-        runs-on: ubuntu-latest
-        env:
-            GO_VERSION: stable
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      GO_VERSION: stable
 
-        steps:
-            - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-            - uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6
-              with:
-                go-version: '${{ ENV.GO_VERSION }}'
-            - name: Make
-              run: make
-            # - name: Make Image
-            #   run: make image
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6
+        with:
+          go-version: '${{ ENV.GO_VERSION }}'
+      - name: Make
+        run: make
+      # - name: Make Image
+      #   run: make image
